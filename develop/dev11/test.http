@@ -1,0 +1,46 @@
+
+
+#curl -v -X POST -H "Content-Type: application/json" -d '{"uuid": "test1",  "date": "2016-01-01",  "event": "tester data"}' localhost:8080/update_event
+#curl -v -X POST -H "Content-Type: application/json" -d '{"uuid": "test1"}' localhost:8080/delete_event
+# curl -v -X POST -H "Content-Type: application/json" -d '{"uuid": "test1",  "date": "2017-01-01",  "event": "tester data 1"}' localhost:8080/create_event
+POST localhost:8080/create_event
+Content-Type: application/json
+
+{
+  "uuid": "test1",
+  "date": "2017-01-01",
+  "event": "tester data 1"
+}
+
+###
+
+# curl -v -X POST -H "Content-Type: application/json" -d '{"uuid": "test1",  "date": "2016-01-01",  "event": "tester data"}' localhost:8080/update_event
+POST localhost:8080/update_event
+Content-Type: application/json
+
+{
+  "uuid": "test1",
+  "date": "2016-01-01",
+  "event": "tester data"
+}
+
+###
+
+
+
+###
+
+# curl -v -X POST -H "Content-Type: application/json" -d '{"uuid": "test1"}' localhost:8080/delete_event
+POST localhost:8080/delete_event
+Content-Type: application/json
+
+{
+  "uuid": "test1"
+}
+
+###
+
+
+
+###
+

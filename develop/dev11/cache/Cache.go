@@ -21,7 +21,7 @@ func (r *Cache) Print() {
 }
 
 func (c *Cache) LoadIn(data *cell.Cell) error {
-	c.arr.Set(data.Uuid, *data)
+	c.arr.Append(*data)
 	return nil
 }
 
@@ -42,10 +42,10 @@ func (c *Cache) Update(data *cell.Cell) error {
 	if temp1 == nil {
 		return errors.New("Not found!")
 	}
-	c.arr.Set(data.Uuid, *data)
+	c.arr.Update(*data)
 	return nil
 }
 
-func (c *Cache) Delete(uuid string) error {
-	return c.arr.Delete(uuid)
+func (c *Cache) Delete(uuid, date string) error {
+	return c.arr.Delete(uuid, date)
 }

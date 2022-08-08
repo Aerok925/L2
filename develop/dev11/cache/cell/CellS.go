@@ -6,9 +6,10 @@ import (
 )
 
 type Cell struct {
-	Uuid  string
-	Date  string
-	Event string
+	Uuid     string
+	Date     string
+	Event    string
+	DateTime time.Time `json:"-"`
 }
 
 func New() *Cell {
@@ -21,7 +22,7 @@ func ConvertToCell(data []byte) (*Cell, error) {
 	if err != nil {
 		return nil, err
 	}
-	_, err = time.Parse("2006-01-02", retCell.Date)
+	retCell.DateTime, err = time.Parse("2006-01-02", retCell.Date)
 	if err != nil {
 		return nil, err
 	}

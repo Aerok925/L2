@@ -107,7 +107,7 @@ func DeleteEvent(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, string(data))
 		return
 	}
-	qwe.Cache.Delete(toCell.Uuid)
+	qwe.Cache.Delete(toCell.Uuid, toCell.Date)
 	data, _ := CreateJson(toCell)
 	fmt.Fprintln(w, string(data))
 }

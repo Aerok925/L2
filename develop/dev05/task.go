@@ -1,1 +1,5 @@
-package dev05
+package main
+
+func main() {
+
+}

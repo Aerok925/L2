@@ -62,5 +62,4 @@ func TestUnpackingStr(t *testing.T) {
 			t.Error("real string", realStr, "!=", resultStr3)
 		}
 	})
-
 }

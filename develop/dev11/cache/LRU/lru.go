@@ -29,12 +29,16 @@ func New(capacity int) *LRU {
 }
 
 func (c *LRU) Print() {
+	c.mutex.RLock()
+	defer c.mutex.RUnlock()
 	for key, _ := range c.items {
 		fmt.Println(key, c.Get(key))
 	}
 }
 
 func (c *LRU) Append(value cell.Cell) bool {
+	c.mutex.Lock()
+	defer c.mutex.Unlock()
 	if element, exists := c.items[value.Uuid]; exists == true {
 		c.queue.MoveToFront(element)
 		element.Value.(*Item).Value = append(element.Value.(*Item).Value, value)
@@ -54,6 +58,8 @@ func (c *LRU) Append(value cell.Cell) bool {
 }
 
 func (c *LRU) Update(value cell.Cell) bool {
+	c.mutex.Lock()
+	defer c.mutex.Unlock()
 	if element, exists := c.items[value.Uuid]; exists == true {
 		c.queue.MoveToFront(element)
 		for i, elem := range element.Value.(*Item).Value {
@@ -67,6 +73,8 @@ func (c *LRU) Update(value cell.Cell) bool {
 }
 
 func (c *LRU) Delete(key string, date string) error {
+	c.mutex.Lock()
+	defer c.mutex.Unlock()
 	element, exists := c.items[key]
 	if exists == false {
 		return errors.New("Not found!")
@@ -74,6 +82,7 @@ func (c *LRU) Delete(key string, date string) error {
 	for i, elem := range element.Value.(*Item).Value {
 		if elem.Date == date {
 			element.Value.(*Item).Value = append(element.Value.(*Item).Value[0:i], element.Value.(*Item).Value[i+1:]...)
+			break
 		}
 	}
 	if len(element.Value.(*Item).Value) == 0 {
@@ -91,6 +100,8 @@ func (c *LRU) purge() {
 }
 
 func (c *LRU) Get(key string) []cell.Cell {
+	c.mutex.RLock()
+	defer c.mutex.RUnlock()
 	element, exists := c.items[key]
 	if exists == false {
 		return nil

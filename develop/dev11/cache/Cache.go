@@ -1,7 +1,6 @@
 package cache
 
 import (
-	_ "../storageI"
 	"./LRU"
 	"./cell"
 	"encoding/json"
@@ -12,6 +11,8 @@ func New() *Cache {
 	return &Cache{arr: LRU.New(100)}
 }
 
+var Storage *Cache = New()
+
 type Cache struct {
 	arr *LRU.LRU
 }
@@ -20,9 +21,15 @@ func (r *Cache) Print() {
 	r.arr.Print()
 }
 
+func (r *Cache) Get(key string) []cell.Cell {
+	return r.arr.Get(key)
+}
+
 func (c *Cache) LoadIn(data *cell.Cell) error {
-	c.arr.Append(*data)
-	return nil
+	if c.arr.Append(*data) {
+		return nil
+	}
+	return errors.New("Can`t append!")
 }
 
 func (c *Cache) ConvertJSON(uuid string) ([]byte, error) {
@@ -42,10 +49,12 @@ func (c *Cache) Update(data *cell.Cell) error {
 	if temp1 == nil {
 		return errors.New("Not found!")
 	}
-	c.arr.Update(*data)
-	return nil
+	if c.arr.Update(*data) {
+		return nil
+	}
+	return errors.New("Not found!")
 }
 
-func (c *Cache) Delete(uuid, date string) error {
-	return c.arr.Delete(uuid, date)
+func (c *Cache) Delete(data *cell.Cell) error {
+	return c.arr.Delete(data.Uuid, data.Date)
 }

@@ -22,10 +22,12 @@ func parsPostMethod(r *http.Request) (*cell.Cell, error, int) {
 	if err != nil {
 		return nil, err, 400
 	}
-
 	tempCell.DateTime, err = time.Parse("2006-01-2", tempCell.Date)
 	if err != nil {
 		return nil, err, 400
+	}
+	if tempCell.DateTime.Before(time.Now()) == true {
+		return nil, errors.New("Old Date"), 400
 	}
 	if tempCell.Uuid == "" {
 		return nil, errors.New(""), 400

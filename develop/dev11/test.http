@@ -8,7 +8,7 @@ Content-Type: application/json
 
 {
   "uuid": "test1",
-  "date": "2022-08-02",
+  "date": "2022-08-12",
   "event": "tester data 1"
 }
 
@@ -30,9 +30,9 @@ POST localhost:8080/update_event
 Content-Type: application/json
 
 {
-  "uuid": "test3",
-  "date": "2022-08-01",
-  "event": "tester data 1"
+  "uuid": "test1",
+  "date": "2022-08-11",
+  "event": "tester data 1 228"
 }
 
 ###
@@ -61,13 +61,12 @@ Content-Type: application/json
 ###
 
 # curl -v -X GET localhost:8080/event_for_day?uuid=test1&date=2018-02-02
-GET localhost:8080/event_for_day?uuid=test1&date=2022-01-03
+GET localhost:8080/event_for_day?uuid=test1&date=2022-08-12
 
 ###
 
-GET localhost:8080/event_for_week?uuid=test1&date=2022-01-02
+GET localhost:8080/event_for_week?uuid=test1&date=2022-08-11
 
-# хедур вынеси ебло!
 
 ###
 POST localhost:8080/create_event
@@ -75,7 +74,7 @@ Content-Type: application/json
 
 {
   "uuid": "test1",
-  "date": "2022-01-08",
+  "date": "2022-08-11",
   "event": "tester data 1"
 }
 

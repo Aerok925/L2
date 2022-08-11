@@ -4,8 +4,8 @@ import (
 	"../cache"
 	"../cache/cell"
 	"encoding/json"
+	"errors"
 	"fmt"
-	"log"
 	"net/http"
 	"time"
 )
@@ -23,12 +23,11 @@ func getCells(r *http.Request, timer int) ([]cell.Cell, error) {
 	uuid := r.URL.Query().Get("uuid")
 	cells := cache.Storage.Get(uuid)
 	dateTime, err := getDate(r)
-	if err != nil {
-		return nil, err
+	if err != nil || cells == nil {
+		return nil, errors.New("Invalid data")
 	}
 	retCells := make([]cell.Cell, 0)
 	tempTime := dateTime
-	log.Println("date", dateTime.Year(), dateTime.Month(), dateTime.Day())
 	for _, cell := range cells {
 		dateTime = tempTime
 		for i := 0; i < timer; i++ {
@@ -38,7 +37,6 @@ func getCells(r *http.Request, timer int) ([]cell.Cell, error) {
 			dateTime = dateTime.Add(24 * time.Hour)
 		}
 	}
-	//fmt.Print(tempTime.UTC())
 	return retCells, nil
 }
 
@@ -55,8 +53,7 @@ func EventsForMonth(w http.ResponseWriter, r *http.Request) {
 	}
 	retValue, err := getCells(r, 30)
 	if err != nil {
-
-		// сделать обработку ошибок
+		fmt.Fprintln(w, string(NewErrRequest("Invalid data")))
 		return
 	}
 	data := createJSON(retValue)
@@ -69,7 +66,7 @@ func EventsForWeek(w http.ResponseWriter, r *http.Request) {
 	}
 	retValue, err := getCells(r, 7)
 	if err != nil {
-		// сделать обработку ошибок
+		fmt.Fprintln(w, string(NewErrRequest("Invalid data")))
 		return
 	}
 	data := createJSON(retValue)
@@ -82,8 +79,7 @@ func EventsForDay(w http.ResponseWriter, r *http.Request) {
 	}
 	retValue, err := getCells(r, 1)
 	if err != nil {
-		fmt.Fprintln(w, err)
-		// сделать обработку ошибок
+		fmt.Fprintln(w, string(NewErrRequest("Invalid data")))
 		return
 	}
 	data := createJSON(retValue)

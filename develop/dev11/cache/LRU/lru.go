@@ -1,10 +1,10 @@
 package LRU
 
 import (
-	"../cell"
 	"container/list"
 	"errors"
 	"fmt"
+	"github.com/Aerok925/L2/develop/dev11/cache/cell"
 	"sync"
 )
 

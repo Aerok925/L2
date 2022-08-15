@@ -1,8 +1,8 @@
 package main
 
 import (
-	"./confg"
-	"./handler"
+	"github.com/Aerok925/L2/develop/dev11/confg"
+	"github.com/Aerok925/L2/develop/dev11/handler"
 	"log"
 	"net/http"
 	"os"

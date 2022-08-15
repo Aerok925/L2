@@ -1,10 +1,10 @@
 package cache
 
 import (
-	"./LRU"
-	"./cell"
 	"encoding/json"
 	"errors"
+	"github.com/Aerok925/L2/develop/dev11/cache/LRU"
+	"github.com/Aerok925/L2/develop/dev11/cache/cell"
 )
 
 func New() *Cache {

@@ -23,7 +23,7 @@ func (b officeComputerBuilder) Build() Computer {
 }
 
 func NewOfficeComputerBuilder() ComputerBuilderI {
-	return officeComputerBuilder{}.RAM(123).CPU("Хуета").MB("полная")
+	return officeComputerBuilder{}.RAM(123).CPU("Intel i3").MB("1024")
 }
 
 type Computer struct {
@@ -76,9 +76,15 @@ func (d Director) BuildComputer() Computer {
 	return d.b.Build()
 }
 
+func (d *Director) SetBuilder(i ComputerBuilderI) {
+	d.b = i
+}
+
 func main() {
-	//officeBuilder := NewOfficeComputerBuilder()
+	officeBuilder := NewOfficeComputerBuilder()
 	compbuild := NewComputerBuilder().MB("qwe").CPU("Intel I5").RAM(4)
 	direct := NewDirector(compbuild)
+	fmt.Println(direct.BuildComputer())
+	direct.SetBuilder(officeBuilder)
 	fmt.Println(direct.BuildComputer())
 }

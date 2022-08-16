@@ -96,11 +96,11 @@ func CreateTransport(trans string) (transport, error) {
 
 func main() {
 	car, _ := CreateTransport("Zhiquli")
-	car.SetShipment("говно")
+	car.SetShipment("товар")
 	car.SetCity("Култаево")
 	car.delivery()
 	boat, _ := CreateTransport("FishingBoat")
 	boat.SetShipment("телефон")
-	boat.SetCity("Пермь")
+	boat.SetCity("Мск")
 	boat.delivery()
 }

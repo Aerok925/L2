@@ -57,7 +57,7 @@ func (w *wget) Print(data []byte) {
 		log.Println(string(data))
 		return
 	}
-	err := os.WriteFile("qwe", data, 0777)
+	err := os.WriteFile("index.html", data, 0777)
 	if err != nil {
 		log.Println(err)
 		return

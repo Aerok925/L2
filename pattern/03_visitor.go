@@ -5,6 +5,11 @@ import (
 	"math"
 )
 
+/*
+Посититель - это порождающий паттернб который позволяет выполнять операции с каждым объектом из некоторой структуры,
+он позволяет определить новую операцию, не изменяя класс объекта
+*/
+
 type Visitor interface {
 	visitorForSquare(*Square)
 	visitorForCircle(*Circle)
@@ -80,10 +85,13 @@ func main() {
 	square := &Square{side: 2}
 	circle := &Circle{radius: 3}
 	rectangle := &Rectangle{l: 2, b: 3}
-
+	sh := make([]Shape, 0, 3)
+	sh = append(sh, square)
+	sh = append(sh, circle)
+	sh = append(sh, rectangle)
 	areaCalculator := &AreaCalculator{}
 
-	square.accept(areaCalculator)
-	circle.accept(areaCalculator)
-	rectangle.accept(areaCalculator)
+	for _, s := range sh {
+		s.accept(areaCalculator)
+	}
 }

@@ -1,50 +1,88 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
-type flamethrower struct {
-	charge int
+/*
+Фасад является структурным паттерном, который предоставляет единственный интерфейс, вместо набора интерфейсов
+нокоторой подсистемы. Другими словами он определяет интерфейс более высого уровня, который упрощает пользователю общение
+с подсистемой.
+*/
+
+type Courier interface {
+	Delivery(string)
+	PickUpProducts(i StoreI)
+	GetName() string
 }
 
-func (f *flamethrower) Fire() {
-	if f.charge-1 < 0 {
-		fmt.Println("I can`t")
-		return
-	}
-	f.charge--
-	fmt.Println("Fire show!!!")
+type DeliverMen struct {
+	name string
 }
 
-func (f *flamethrower) Charging() {
-	f.charge = 10
+func (d *DeliverMen) Delivery(address string) {
+	fmt.Println(d.name, "доставил продукты до", address)
 }
 
-type FireShow interface {
-	Show()
-	Reboot()
+func (d *DeliverMen) GetName() string {
+	return d.name
 }
 
-type Show struct {
-	flame flamethrower
+func NewDiliverMen() Courier {
+	return &DeliverMen{name: "Вася"}
 }
 
-func (sh *Show) Show() {
-	sh.flame.Fire()
+func (d *DeliverMen) PickUpProducts(i StoreI) {
+	fmt.Println(d.GetName(), "забирает продукты в магазине", i.GetName())
+	i.ProvideProduct(d)
 }
 
-func (sh *Show) Reboot() {
-	sh.flame.Charging()
+type StoreI interface {
+	ProvideProduct(courier Courier)
+	GetName() string
 }
 
-func NewFlamethrower(i int) *flamethrower {
-	return &flamethrower{charge: i}
+type Magnit struct {
+	name string
 }
 
-func NewShow(i int) *Show {
-	return &Show{flame: *NewFlamethrower(i)}
+func (m *Magnit) GetName() string {
+	return m.name
+}
+
+func (m *Magnit) ProvideProduct(c Courier) {
+	fmt.Println(m.GetName(), "Выдал продукты курьеру", c.GetName())
+}
+
+func NewMagnit() StoreI {
+	return &Magnit{name: "Magnit"}
+}
+
+type DelivEda interface {
+	DeliveryTo(string)
+}
+
+type DelivertClub struct {
+	name string
+}
+
+func (d *DelivertClub) DeliveryTo(name string) {
+	cour := NewDiliverMen()
+	shop := NewMagnit()
+	cour.PickUpProducts(shop)
+	cour.Delivery(name)
+}
+
+func NewDeliverClub() DelivEda {
+	return &DelivertClub{name: "qwe"}
 }
 
 func main() {
-	show := NewShow(10)
-	show.Show()
+	dev := NewDiliverMen()
+	shop := NewMagnit()
+	dev.PickUpProducts(shop)
+	dev.Delivery("дома")
+
+	ogr := NewDeliverClub()
+	ogr.DeliveryTo("работы")
 }

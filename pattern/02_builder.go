@@ -2,6 +2,12 @@ package main
 
 import "fmt"
 
+/*
+Отделяет конструирование сложного объекта от его представления,
+так что в результате одного и того же процесса конструирования
+могут получаться разные представления
+*/
+
 type ComputerBuilderI interface {
 	CPU(string) ComputerBuilderI
 	MB(string) ComputerBuilderI
@@ -54,6 +60,7 @@ func (b ComputerBuilder) RAM(ram int) ComputerBuilderI {
 	b.ram = ram
 	return b
 }
+
 func (b ComputerBuilder) Build() Computer {
 	return Computer{
 		cpu: b.cpu,
